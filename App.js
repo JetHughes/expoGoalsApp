@@ -1,21 +1,24 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import HomeApp from './src/Navigation';
+import { MenuProvider } from 'react-native-popup-menu';
+import AsyncStorage from '@react-native-community/async-storage';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+import tricks from './src/data/initData/TricksData';
+import trickLists from './src/data/initData/TrickListsData';
+import goals from './src/data/initData/GoalsData';
+
+class App extends React.Component{
+  constructor(props){
+    super();
+  }
+
+  render() {
+    return (
+      <MenuProvider>
+        <HomeApp/>
+      </MenuProvider>
+    );
+  }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;

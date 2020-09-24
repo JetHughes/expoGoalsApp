@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "expoGoalsApp",
+    "name": "Expo Goals App",
     "slug": "expoGoalsApp",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -17,10 +17,14 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "bundleIdentifier": "com.jethughes.expoGoalsApp"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "versionCode": "1.1.0"
+    },
+    "android": {
+      "package": "com.jethughes.expoGoalsApp2"
     }
   }
 }
