@@ -3,6 +3,7 @@ import trickLists from '../../data/initData/TrickListsData';
 import Utils from '../../Utils';
 import AsyncStorage from '@react-native-community/async-storage';
 import goals from '../../data/initData/GoalsData';
+import {useTheme} from '@react-navigation/native';
 
 //ui components
 import {View,Text,StyleSheet,ScrollView,Platform} from 'react-native';
@@ -50,6 +51,9 @@ class Home extends React.Component{
     }
 
   render() {    
+
+    const {theme} = this.props;
+
     const data = () => {
       const newData = [];
       trickLists.filter(trickList => trickList.type === this.state.ddlType).forEach(trickList => newData.push({"label": trickList.name, "value": trickList}))
@@ -92,7 +96,7 @@ class Home extends React.Component{
             <Button                 
               mode="contained" 
               disabled={this.state.chooseButtonDisabled}
-              color="#0066FF" 
+              color={theme.colors.primary} 
               onPress={() => {
                 if(this.state.ddlList != ''){
                   let newTrick;
@@ -133,12 +137,16 @@ class Home extends React.Component{
   } 
 }
 
-export default Home;
+export default function(props) {
+  const theme = useTheme();
+
+  return <Home {...props} theme={theme} />
+}
 
 const styles = StyleSheet.create({  
   container: {
     flex: 1,
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
   },
 
   //choosers

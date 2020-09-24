@@ -2,7 +2,7 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import {View,TouchableOpacity} from 'react-native';
 
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer,DefaultTheme,DarkTheme} from '@react-navigation/native';
 import {TransitionPresets} from '@react-navigation/stack';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
@@ -16,6 +16,14 @@ import NewListModal from './screens/trickLists/NewListModal';
 import ViewList from './screens/trickLists/ViewList';
 import NewGoalModal from './screens/goals/NewGoalModal';
 import GoalsScreen from './screens/goals/GoalsScreen';
+
+const MyTheme = {
+    ...DefaultTheme,
+    colors: {
+        ...DefaultTheme.colors,
+        primary: 'rgb(255, 45, 85)',
+    },
+};
 
 //Goals
 const GoalsTopTabs = createMaterialTopTabNavigator();
@@ -129,8 +137,9 @@ function HomeStackScreen({ navigation }) {
             initialRouteName="Home">            
             <HomeStack.Screen
                 name='Home'
-                component={Home} 
-                options={{
+                component={Home}                 
+                options={{       
+                                 
                 }} 
             />
         </HomeStack.Navigator>
@@ -202,7 +211,7 @@ function HomeApp(props) {
         //         <TestStack.Screen name="Home" component={Home} />
         //     </TestStack.Navigator>
         // </NavigationContainer>
-        <NavigationContainer>
+        <NavigationContainer theme={MyTheme}>
         <ModalStack.Navigator
           initialRouteName="RootStack"
           screenOptions={() => ({
