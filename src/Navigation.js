@@ -1,12 +1,13 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import {View,TouchableOpacity} from 'react-native';
+import {View,TouchableOpacity,Text} from 'react-native';
 
 import {NavigationContainer,DefaultTheme,DarkTheme} from '@react-navigation/native';
 import {TransitionPresets} from '@react-navigation/stack';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
+import { createNativeStackNavigator } from 'react-native-screens/native-stack';
 
 import Home from './screens/home/Home';
 import TrickLibrary from './screens/trickLibrary/TrickLibrary';
@@ -37,7 +38,7 @@ function GoalsTobTabsScreen() {
     )
 }
 
-const GoalsStack = createStackNavigator();
+const GoalsStack = createNativeStackNavigator();
 function GoalsStackScreen({route}) {
     return (
         <GoalsStack.Navigator
@@ -53,7 +54,7 @@ function GoalsStackScreen({route}) {
 }
 
 //TrickLists Stack and tabs
-const TrickListsStack = createStackNavigator();
+const TrickListsStack = createNativeStackNavigator();
 function TrickListsStackScreen({navigation, route}) {
     return (
         <TrickListsStack.Navigator
@@ -92,8 +93,8 @@ function TrickListsStackScreen({navigation, route}) {
                 name="Add Tricks"
                 component={AddTricks}
                 options={{                    
-                    ...TransitionPresets.ModalTransition,    
-                    headerLeft: null,
+                    ...TransitionPresets.ModalTransition, 
+                    headerLeft: () => null
                 }}
             />
         </TrickListsStack.Navigator>
@@ -101,7 +102,7 @@ function TrickListsStackScreen({navigation, route}) {
 }
 
 //Trick Library
-const TrickLibraryStack = createStackNavigator();
+const TrickLibraryStack = createNativeStackNavigator();
 function TrickLibraryStackScreen() {
     return(
         <TrickLibraryStack.Navigator
@@ -130,7 +131,7 @@ function TrickLibraryTopTabsScreen() {
 }
 
 //Home
-const HomeStack = createStackNavigator();
+const HomeStack = createNativeStackNavigator();
 function HomeStackScreen({ navigation }) {
     return (
         <HomeStack.Navigator
