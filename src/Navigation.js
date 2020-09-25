@@ -1,6 +1,7 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import {View,TouchableOpacity,Text} from 'react-native';
+import globalStyles from './styles/GlobalStyles';
 
 import {NavigationContainer,DefaultTheme,DarkTheme} from '@react-navigation/native';
 import {TransitionPresets} from '@react-navigation/stack';
@@ -45,9 +46,19 @@ function GoalsStackScreen({route}) {
             initialRouteName="Goals">            
             <GoalsStack.Screen
                 name='Goals'
-                component={GoalsTobTabsScreen} 
-                options={{
-                }} 
+                component={GoalsTobTabsScreen}
+                options={({ navigation, route }) => ({
+                    headerRight:() => (
+                        <View style={globalStyles.headerRight}>
+                            <TouchableOpacity hitSlop={{top: 20, left: 20, bottom: 20, right: 20}} 
+                              onPress={() => navigation.navigate('NewGoalModal')}
+                              style={globalStyles.headerButton}
+                           >
+                                <Icon name="plus" size={24} />
+                            </TouchableOpacity>
+                        </View>
+                    )
+                })}
             />
         </GoalsStack.Navigator>
     )

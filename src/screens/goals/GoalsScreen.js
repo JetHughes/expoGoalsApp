@@ -1,21 +1,35 @@
 import React from 'react';
 import Goal from '../../data/classes/Goal';
-import goals from '../../data/initData/GoalsData';
 import AsyncStorage from '@react-native-community/async-storage';
+import globalStyles from '../../styles/GlobalStyles';
 
 //ui components
 import {View,ScrollView} from 'react-native';
 import GoalsSection from './GoalSection';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 class GoalsScreen extends React.Component{
     constructor(props){
         super();
         this.loadAsyncData();   
-        this.type = props.route.params.type
+        this.type = props.route.params.type;
+
+        props.navigation.setOptions({
+            headerRight: () => (
+              <View style={globalStyles.headerRight}>
+                  <TouchableOpacity hitSlop={{top: 20, left: 20, bottom: 20, right: 20}} 
+                    //onPress={() => props.navigation.navigate('NewListModal', {addTrickList: this.addTrickList, updateTrickList: this.updateTrickList})}
+                    style={globalStyles.headerButton}
+                 >
+                      <Icon name="plus" size={24} />
+                  </TouchableOpacity>
+              </View>
+            )
+          })
     }    
 
     state = {
-        goalsData: goals.filter(list => list.type === this.type)
+        goalsData: []
     }
 
     componentDidUpdate() {
