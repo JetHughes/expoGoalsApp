@@ -1,6 +1,4 @@
 import React,{useLayoutEffect,useEffect,useState} from 'react';
-import tricks from '../../data/initData/TricksData';
-import Trick from '../../data/classes/Trick';
 import AsyncStorage from '@react-native-community/async-storage';
 
 //ui components
@@ -39,27 +37,21 @@ const AddTricks = ({route, navigation}) => {
 
   function addTrick(id) {
     //add to selected tricks
-    const newSelectedTricks = [...selectedTricks, unselectedTricks[unselectedTricks.findIndex(trick => trick.id === id)]]
-    setSelectedTricks(newSelectedTricks);
+      //const newSelectedTricks = [...selectedTricks, unselectedTricks[unselectedTricks.findIndex(trick => trick.id === id)]]
+    setSelectedTricks(selectedTricks.concat(unselectedTricks.filter(trick => trick.id === id)));
     //remove from unselected tricks
-    const newUnselectedTricks = unselectedTricks;
-    newUnselectedTricks.splice(unselectedTricks.findIndex(trick => trick.id === id), 1);
-    setUnselectedTricks(newUnselectedTricks);
+    setUnselectedTricks(unselectedTricks.filter(trick => trick.id !== id));
     
     updateTrickList(trickList.id, newSelectedTricks);
-    console.log("Added trick. Tricks are: " + newSelectedTricks);
-  }
+  }2
 
   function removeTrick(id){
     //add to unselected tricks
     setUnselectedTricks([selectedTricks[selectedTricks.findIndex(trick => trick.id === id)], ...unselectedTricks]);
     //remove from selected tricks
-    const newSelectedTricks = selectedTricks;
-    newSelectedTricks.splice(selectedTricks.findIndex(trick => trick.id === id), 1);
-    setSelectedTricks(newSelectedTricks);
+    setSelectedTricks(selectedTricks.filter(trick => trick.id !== id));
 
     updateTrickList(trickList.id, newSelectedTricks);
-    console.log("removed trick. Tricks are: " + newSelectedTricks);
   }
 
   return (
@@ -107,15 +99,3 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   }
 })
-
-const railTricks = [
-  new Trick('cab 2 on', 'rails'),
-  new Trick('front 3 on', 'rails'),
-  new Trick('back 3 out', 'rails'),
-  new Trick('board 2', 'rails'),
-  new Trick('front blunt 2', 'rails'),
-  new Trick('cab 1 on', 'rails'),
-  new Trick('front 1 on', 'rails'),
-  new Trick('back 1 on', 'rails'),
-  new Trick( 'switch back 2 on', 'rails'),
-]

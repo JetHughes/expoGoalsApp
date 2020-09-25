@@ -22,7 +22,7 @@ const MyTheme = {
     ...DefaultTheme,
     colors: {
         ...DefaultTheme.colors,
-        primary: 'rgb(255, 3, 5)',
+        primary: 'rgb(0,102,255)',
     },
 };
 
@@ -31,9 +31,9 @@ const GoalsTopTabs = createMaterialTopTabNavigator();
 function GoalsTobTabsScreen() {
     return (
         <GoalsTopTabs.Navigator>
-            <GoalsTopTabs.Screen name='Rails' component={GoalsScreen} initialParams={{type: 'rails'}}/>
-            <GoalsTopTabs.Screen name='Jumps' component={GoalsScreen} initialParams={{type: 'jumps'}}/>
-            <GoalsTopTabs.Screen name='Pipe' component={GoalsScreen} initialParams={{type: 'pipe'}}/>
+            <GoalsTopTabs.Screen name='rails' component={GoalsScreen} initialParams={{type: 'rails'}}/>
+            <GoalsTopTabs.Screen name='jumps' component={GoalsScreen} initialParams={{type: 'jumps'}}/>
+            <GoalsTopTabs.Screen name='pipe' component={GoalsScreen} initialParams={{type: 'pipe'}}/>
         </GoalsTopTabs.Navigator>
     )
 }
@@ -202,9 +202,7 @@ function MainBottomTabScreens() {
     )
 }
 
-const TestStack = createStackNavigator();
-
-const ModalStack = createStackNavigator();
+const ModalStack = createNativeStackNavigator();
 function HomeApp(props) {
     return(
         // <NavigationContainer>
@@ -218,8 +216,7 @@ function HomeApp(props) {
           screenOptions={() => ({
             headerShown: false,
             gestureEnabled: true,
-            cardOverlayEnabled: true,
-            cardStyle: { backgroundColor: 'transparent' }
+            stackPresentation: "transparentModal"
           })}
           mode="modal"
           headerMode="none"

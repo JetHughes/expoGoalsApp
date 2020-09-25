@@ -1,5 +1,6 @@
 import React from 'react';
 import Utils from '../../Utils';
+import {Platform} from 'react-native';
 
 //ui components
 import {View,Text,StyleSheet,TouchableOpacity,TextInput} from 'react-native';
@@ -33,13 +34,14 @@ class GoalsSection extends React.Component {
         this.setState({inputIsVisible: !this.state.inputIsVisible})
     }
 
-    render(){
+    render(){        
+
         return(
             <View style={{width: '100%', marginTop: 16}}>
 
                 {/* header */}
                 <View style={styles.headerContainer}>
-                    <Text style={styles.sectionHeader}>{Utils.toCaps(this.props.period)}</Text>
+                    <Text style={styles.sectionHeader}>{this.props.period.toUpperCase()}</Text>
                     <TouchableOpacity onPress={() => this.props.navigation.navigate('NewGoalModal', {addGoal: this.addGoal})}>
                         <Icon style={styles.sectionIcon} name={this.state.addGoalIcon} size={24}/>
                     </TouchableOpacity> 
@@ -64,10 +66,10 @@ class GoalsSection extends React.Component {
                             </TouchableOpacity>
                         </View>
                         <Divider style={{marginHorizontal: 8}}/>
-                    </HideableView>
+                    </HideableView>                    
 
                     {/* items */}
-                    {this.props.goals.slice(0).reverse().map((goal) => (
+                    {this.props.goals.slice(0).reverse().map((goal) => (                        
                         <View key={goal.id}>    
                             <GoalItem                              
                                 title={goal.name}
@@ -96,9 +98,8 @@ const styles = StyleSheet.create({
     },
     sectionHeader: {
         flex: 1,
-        fontWeight: '500',
-        fontSize: 20,
-        letterSpacing: 0.15
+        color: 'gray',
+        alignSelf: 'flex-end'
     },
     sectionIcon: {
         //marginRight: 8
@@ -107,6 +108,8 @@ const styles = StyleSheet.create({
         shadowColor: '#333',
         shadowOpacity: 0.3,
         shadowOffset: {width: 1, height: 1},
+        minHeight: Platform.OS === "ios" ? 44: 48,
+        backgroundColor: "white"
     },
     inputContainer: {
         flexDirection: 'row',

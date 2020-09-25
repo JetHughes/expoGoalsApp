@@ -1,7 +1,6 @@
 import React from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import Trick from '../../data/classes/Trick';
-import tricks from '../../data/initData/TricksData';
 import {useTheme} from '@react-navigation/native';
 
 //ui components
@@ -18,7 +17,7 @@ class TrickLibrary extends React.Component{
   }
 
   state = {
-    tricks: tricks,
+    tricks: [],
     addingTrick: false,
     trickNameInputValue: ''
   }
@@ -96,8 +95,8 @@ class TrickLibrary extends React.Component{
                   style={styles.text}
                   placeholder="Trick Name..."
                   value={this.state.trickNameInputValue}
-                  onChangeText={value => this.setState({trickNameInputValue: value})
-                  }
+                  onChangeText={value => this.setState({trickNameInputValue: value})}
+                  onSubmitEditing={() => this.addTrick(this.state.trickNameInputValue)}
                 />
                 <Button color={theme.colors.primary} onPress={() => this.addTrick(this.state.trickNameInputValue)}>SAVE</Button>
                 <Button color="#ff0033" onPress={() => this.setState({addingTrick: false, trickNameInputValue: ''})}>CANCEL</Button>
