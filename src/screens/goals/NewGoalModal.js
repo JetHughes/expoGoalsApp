@@ -22,7 +22,7 @@ import {Dropdown} from 'react-native-material-dropdown';
     const [period, setPeriod] = useState('');
 
     function add() {
-        if(trick.length > 0 && type.length > 0 && period.length > 0){
+        if(name.length > 0 && type.length > 0 && period.length > 0){
             //addGoal(trick);
             navigation.navigate("GoalsStack");
         }
