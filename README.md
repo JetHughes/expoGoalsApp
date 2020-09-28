@@ -2,6 +2,6 @@
 
 Snowboard App
 
-React Native Expo
+React Native + Expo
 
 For a school project
