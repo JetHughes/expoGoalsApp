@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import globalStyles from '../../styles/GlobalStyles';
+import Goal from '../../data/classes/Goal';
 
 //components
 import {
@@ -14,8 +15,8 @@ import {
 from 'react-native';
 import {Dropdown} from 'react-native-material-dropdown';
 
-    const NewGoalModal = ({navigation, route}) => {
-    //const {addGoal} = route.params;
+const NewGoalModal = ({navigation, route}) => {
+    const {addGoal} = route.params;
 
     const [name, setName] = useState('');
     const [type, setType] = useState('');
@@ -23,7 +24,7 @@ import {Dropdown} from 'react-native-material-dropdown';
 
     function add() {
         if(name.length > 0 && type.length > 0 && period.length > 0){
-            //addGoal(trick);
+            addGoal(new Goal(period, name));
             navigation.navigate("GoalsStack");
         }
     }  
@@ -60,7 +61,7 @@ import {Dropdown} from 'react-native-material-dropdown';
                                 onPress={() => navigation.navigate("GoalsStack")}><Text style={globalStyles.actionButton}>CANCEL</Text></TouchableOpacity>
                             <TouchableOpacity 
                                 hitSlop={{top: 20, left: 0, bottom: 20, right: 20}}           
-                                onPress={() => add(trick)}><Text style={globalStyles.actionButton}>ADD</Text></TouchableOpacity>
+                                onPress={() => add()}><Text style={globalStyles.actionButton}>ADD</Text></TouchableOpacity>
                         </View>
                     </View>
                 </TouchableWithoutFeedback>

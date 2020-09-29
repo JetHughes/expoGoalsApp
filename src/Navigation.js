@@ -48,16 +48,16 @@ function GoalsStackScreen({route}) {
                 name='Goals'
                 component={GoalsTobTabsScreen}
                 options={({ navigation, route }) => ({
-                    headerRight:() => (
-                        <View style={globalStyles.headerRight}>
-                            <TouchableOpacity hitSlop={{top: 20, left: 20, bottom: 20, right: 20}} 
-                              onPress={() => navigation.navigate('NewGoalModal')}
-                              style={globalStyles.headerButton}
-                           >
-                                <Icon name="plus" size={24} />
-                            </TouchableOpacity>
-                        </View>
-                    )
+                    // headerRight:() => (
+                    //     <View style={globalStyles.headerRight}>
+                    //         <TouchableOpacity hitSlop={{top: 20, left: 20, bottom: 20, right: 20}} 
+                    //           onPress={() => navigation.navigate('NewGoalModal')}
+                    //           style={globalStyles.headerButton}
+                    //        >
+                    //             <Icon name="plus" size={24} />
+                    //         </TouchableOpacity>
+                    //     </View>
+                    // )
                 })}
             />
         </GoalsStack.Navigator>

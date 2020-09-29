@@ -18,7 +18,7 @@ class GoalsScreen extends React.Component{
             headerRight: () => (
               <View style={globalStyles.headerRight}>
                   <TouchableOpacity hitSlop={{top: 20, left: 20, bottom: 20, right: 20}} 
-                    //onPress={() => props.navigation.navigate('NewListModal', {addTrickList: this.addTrickList, updateTrickList: this.updateTrickList})}
+                    onPress={() => props.navigation.navigate('NewGoalModal', {addGoal: this.addGoal})}
                     style={globalStyles.headerButton}
                  >
                       <Icon name="plus" size={24} />
@@ -57,14 +57,14 @@ class GoalsScreen extends React.Component{
           }
     }
 
-    render() {
+    addGoal = (period, name) => {
+        const newGoal = new Goal(this.type, period, name);
+        const newGoals = [...this.state.goalsData, newGoal];
+        console.log("added goal, id was: " + newGoal.id);
+        this.setState({goalsData: newGoals});
+    }
 
-        const addGoal = (period, name) => {
-            const newGoal = new Goal(this.type, period, name);
-            const newGoals = [...this.state.goalsData, newGoal];
-            console.log("added goal, id was: " + newGoal.id);
-            this.setState({goalsData: newGoals});
-        }
+    render() {
     
         const editGoal = (id, newName) => {
             let newGoals = this.state.goalsData;
