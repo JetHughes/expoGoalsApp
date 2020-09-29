@@ -13,19 +13,6 @@ class GoalsScreen extends React.Component{
         super();
         this.loadAsyncData();   
         this.type = props.route.params.type;
-
-        props.navigation.setOptions({
-            headerRight: () => (
-              <View style={globalStyles.headerRight}>
-                  <TouchableOpacity hitSlop={{top: 20, left: 20, bottom: 20, right: 20}} 
-                    onPress={() => props.navigation.navigate('NewGoalModal', {addGoal: this.addGoal})}
-                    style={globalStyles.headerButton}
-                 >
-                      <Icon name="plus" size={24} />
-                  </TouchableOpacity>
-              </View>
-            )
-          })
     }    
 
     state = {
@@ -57,15 +44,15 @@ class GoalsScreen extends React.Component{
           }
     }
 
-    addGoal = (period, name) => {
-        const newGoal = new Goal(this.type, period, name);
-        const newGoals = [...this.state.goalsData, newGoal];
-        console.log("added goal, id was: " + newGoal.id);
-        this.setState({goalsData: newGoals});
-    }
-
     render() {
     
+        const addGoal = (period, name) => {
+            const newGoal = new Goal(this.type, period, name);
+            const newGoals = [...this.state.goalsData, newGoal];
+            console.log("added goal, id was: " + newGoal.id);
+            this.setState({goalsData: newGoals});
+        }
+
         const editGoal = (id, newName) => {
             let newGoals = this.state.goalsData;
             newGoals[newGoals.findIndex(goal => goal.id === id)].name = newName;

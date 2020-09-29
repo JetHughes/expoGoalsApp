@@ -40,25 +40,13 @@ function GoalsTobTabsScreen() {
 }
 
 const GoalsStack = createNativeStackNavigator();
-function GoalsStackScreen({route}) {
+function GoalsStackScreen() {
     return (
         <GoalsStack.Navigator
             initialRouteName="Goals">            
             <GoalsStack.Screen
                 name='Goals'
                 component={GoalsTobTabsScreen}
-                options={({ navigation, route }) => ({
-                    // headerRight:() => (
-                    //     <View style={globalStyles.headerRight}>
-                    //         <TouchableOpacity hitSlop={{top: 20, left: 20, bottom: 20, right: 20}} 
-                    //           onPress={() => navigation.navigate('NewGoalModal')}
-                    //           style={globalStyles.headerButton}
-                    //        >
-                    //             <Icon name="plus" size={24} />
-                    //         </TouchableOpacity>
-                    //     </View>
-                    // )
-                })}
             />
         </GoalsStack.Navigator>
     )
@@ -103,8 +91,8 @@ function TrickListsStackScreen({navigation, route}) {
             <TrickListsStack.Screen 
                 name="Add Tricks"
                 component={AddTricks}
-                options={{                    
-                    ...TransitionPresets.ModalTransition, 
+                options={{     
+                    headerTitle: "Add Tricks",               
                     headerLeft: () => null
                 }}
             />
@@ -216,11 +204,6 @@ function MainBottomTabScreens() {
 const ModalStack = createNativeStackNavigator();
 function HomeApp(props) {
     return(
-        // <NavigationContainer>
-        //     <TestStack.Navigator>
-        //         <TestStack.Screen name="Home" component={Home} />
-        //     </TestStack.Navigator>
-        // </NavigationContainer>
         <NavigationContainer theme={MyTheme}>
         <ModalStack.Navigator
           initialRouteName="RootStack"

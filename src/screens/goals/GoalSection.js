@@ -33,6 +33,9 @@ class GoalsSection extends React.Component {
                 {/* header */}
                 <View style={styles.headerContainer}>
                     <Text style={styles.sectionHeader}>{this.props.period.toUpperCase()}</Text>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('NewGoalModal', {addGoal: this.addGoal})}>
+                        <Icon name="plus" size={24}/>
+                    </TouchableOpacity> 
                 </View>
 
                 <View style={styles.goalsContainer}>         
@@ -88,9 +91,6 @@ const styles = StyleSheet.create({
         flex: 1,
         color: 'gray',
         alignSelf: 'flex-end'
-    },
-    sectionIcon: {
-        //marginRight: 8
     },
     goalsContainer:{
         shadowColor: '#333',

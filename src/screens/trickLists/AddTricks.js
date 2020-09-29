@@ -37,8 +37,8 @@ const AddTricks = ({route, navigation}) => {
 
   function addTrick(id) {
     //add to selected tricks
-      //const newSelectedTricks = [...selectedTricks, unselectedTricks[unselectedTricks.findIndex(trick => trick.id === id)]]
-    setSelectedTricks(selectedTricks.concat(unselectedTricks.filter(trick => trick.id === id)));
+    const newSelectedTricks = selectedTricks.concat(unselectedTricks.filter(trick => trick.id === id));
+    setSelectedTricks(newSelectedTricks);
     //remove from unselected tricks
     setUnselectedTricks(unselectedTricks.filter(trick => trick.id !== id));
     
@@ -47,7 +47,8 @@ const AddTricks = ({route, navigation}) => {
 
   function removeTrick(id){
     //add to unselected tricks
-    setUnselectedTricks([selectedTricks[selectedTricks.findIndex(trick => trick.id === id)], ...unselectedTricks]);
+    const newSelectedTricks = [selectedTricks[selectedTricks.findIndex(trick => trick.id === id)], ...unselectedTricks];
+    setUnselectedTricks(newSelectedTricks);
     //remove from selected tricks
     setSelectedTricks(selectedTricks.filter(trick => trick.id !== id));
 
@@ -88,7 +89,7 @@ const styles = StyleSheet.create({
   },
   header: {
     marginLeft: 16,
-    height: Platform.OS = "ios" ? 58: 62,
+    height: Platform.OS === "ios" ? 58: 62,
     paddingTop: 36,
     color: 'gray'
   },

@@ -98,7 +98,7 @@ class TrickLibrary extends React.Component{
                   onChangeText={value => this.setState({trickNameInputValue: value})}
                   onSubmitEditing={() => this.addTrick(this.state.trickNameInputValue)}
                 />
-                <Button color={theme.colors.primary} onPress={() => this.addTrick(this.state.trickNameInputValue)}>SAVE</Button>
+                <Button color={theme.colors.primary} onPress={() => this.addTrick(this.state.trickNameInputValue)}>ADD</Button>
                 <Button color="#ff0033" onPress={() => this.setState({addingTrick: false, trickNameInputValue: ''})}>CANCEL</Button>
             </HideableView>
 
@@ -135,12 +135,12 @@ const styles = StyleSheet.create({
     shadowColor: '#333',
     shadowOpacity: 0.3,
     shadowOffset: {width: 1, height: 1},
-    marginBottom: Platform.OS = "ios" ? 44: 48,
+    marginBottom: Platform.OS === "ios" ? 44: 48,
   },
   trickItem: {
     flex: 1,
     flexDirection: 'row',
-    height: Platform.OS = "ios" ? 44: 48,
+    height: Platform.OS === "ios" ? 44: 48,
     alignItems: "center",
     paddingHorizontal: 16,
     backgroundColor: "white",

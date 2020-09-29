@@ -36,7 +36,6 @@ class Home extends React.Component{
         this.setState({goals: JSON.parse(jsonValue)});
         return;
       }
-      this.setState({trick: 'gay'})
       this.storeAsyncData();
     } catch(e) {
         console.log("Failed to read goals_data");
