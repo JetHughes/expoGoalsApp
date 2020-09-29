@@ -1,12 +1,14 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import {View,TouchableOpacity} from 'react-native';
+import {View,TouchableOpacity,Text} from 'react-native';
+import globalStyles from './styles/GlobalStyles';
 
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer,DefaultTheme,DarkTheme} from '@react-navigation/native';
 import {TransitionPresets} from '@react-navigation/stack';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
+import { createNativeStackNavigator } from 'react-native-screens/native-stack';
 
 import Home from './screens/home/Home';
 import TrickLibrary from './screens/trickLibrary/TrickLibrary';
@@ -17,35 +19,41 @@ import ViewList from './screens/trickLists/ViewList';
 import NewGoalModal from './screens/goals/NewGoalModal';
 import GoalsScreen from './screens/goals/GoalsScreen';
 
+const MyTheme = {
+    ...DefaultTheme,
+    colors: {
+        ...DefaultTheme.colors,
+        primary: 'rgb(0,102,255)',
+    },
+};
+
 //Goals
 const GoalsTopTabs = createMaterialTopTabNavigator();
 function GoalsTobTabsScreen() {
     return (
         <GoalsTopTabs.Navigator>
-            <GoalsTopTabs.Screen name='Rails' component={GoalsScreen} initialParams={{type: 'rails'}}/>
-            <GoalsTopTabs.Screen name='Jumps' component={GoalsScreen} initialParams={{type: 'jumps'}}/>
-            <GoalsTopTabs.Screen name='Pipe' component={GoalsScreen} initialParams={{type: 'pipe'}}/>
+            <GoalsTopTabs.Screen name='rails' component={GoalsScreen} initialParams={{type: 'rails'}}/>
+            <GoalsTopTabs.Screen name='jumps' component={GoalsScreen} initialParams={{type: 'jumps'}}/>
+            <GoalsTopTabs.Screen name='pipe' component={GoalsScreen} initialParams={{type: 'pipe'}}/>
         </GoalsTopTabs.Navigator>
     )
 }
 
-const GoalsStack = createStackNavigator();
-function GoalsStackScreen({route}) {
+const GoalsStack = createNativeStackNavigator();
+function GoalsStackScreen() {
     return (
         <GoalsStack.Navigator
             initialRouteName="Goals">            
             <GoalsStack.Screen
                 name='Goals'
-                component={GoalsTobTabsScreen} 
-                options={{
-                }} 
+                component={GoalsTobTabsScreen}
             />
         </GoalsStack.Navigator>
     )
 }
 
 //TrickLists Stack and tabs
-const TrickListsStack = createStackNavigator();
+const TrickListsStack = createNativeStackNavigator();
 function TrickListsStackScreen({navigation, route}) {
     return (
         <TrickListsStack.Navigator
@@ -83,9 +91,9 @@ function TrickListsStackScreen({navigation, route}) {
             <TrickListsStack.Screen 
                 name="Add Tricks"
                 component={AddTricks}
-                options={{                    
-                    ...TransitionPresets.ModalTransition,    
-                    headerLeft: null,
+                options={{     
+                    headerTitle: "Add Tricks",               
+                    headerLeft: () => null
                 }}
             />
         </TrickListsStack.Navigator>
@@ -93,7 +101,7 @@ function TrickListsStackScreen({navigation, route}) {
 }
 
 //Trick Library
-const TrickLibraryStack = createStackNavigator();
+const TrickLibraryStack = createNativeStackNavigator();
 function TrickLibraryStackScreen() {
     return(
         <TrickLibraryStack.Navigator
@@ -122,15 +130,16 @@ function TrickLibraryTopTabsScreen() {
 }
 
 //Home
-const HomeStack = createStackNavigator();
+const HomeStack = createNativeStackNavigator();
 function HomeStackScreen({ navigation }) {
     return (
         <HomeStack.Navigator
             initialRouteName="Home">            
             <HomeStack.Screen
                 name='Home'
-                component={Home} 
-                options={{
+                component={Home}                 
+                options={{       
+                                 
                 }} 
             />
         </HomeStack.Navigator>
@@ -192,24 +201,16 @@ function MainBottomTabScreens() {
     )
 }
 
-const TestStack = createStackNavigator();
-
-const ModalStack = createStackNavigator();
+const ModalStack = createNativeStackNavigator();
 function HomeApp(props) {
     return(
-        // <NavigationContainer>
-        //     <TestStack.Navigator>
-        //         <TestStack.Screen name="Home" component={Home} />
-        //     </TestStack.Navigator>
-        // </NavigationContainer>
-        <NavigationContainer>
+        <NavigationContainer theme={MyTheme}>
         <ModalStack.Navigator
           initialRouteName="RootStack"
           screenOptions={() => ({
             headerShown: false,
             gestureEnabled: true,
-            cardOverlayEnabled: true,
-            cardStyle: { backgroundColor: 'transparent' }
+            stackPresentation: "transparentModal"
           })}
           mode="modal"
           headerMode="none"

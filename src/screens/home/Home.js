@@ -3,16 +3,20 @@ import trickLists from '../../data/initData/TrickListsData';
 import Utils from '../../Utils';
 import AsyncStorage from '@react-native-community/async-storage';
 import goals from '../../data/initData/GoalsData';
+import {useTheme} from '@react-navigation/native';
+import { YellowBox } from 'react-native';
 
 //ui components
-import {View,Text,StyleSheet,ScrollView,Platform} from 'react-native';
-import { Button, Divider } from 'react-native-paper';
+import {View,Text,StyleSheet,ScrollView,Platform,TouchableOpacity, LogBox} from 'react-native';
+import {Button,Divider} from 'react-native-paper';
 import {Dropdown} from 'react-native-material-dropdown';
+
+console.disableYellowBox = true;
+YellowBox.ignoreWarnings(['Warning: ...']);
 
 class Home extends React.Component{
   constructor(){
     super();
-
     this.loadGoalsData();
   }
 
@@ -32,7 +36,6 @@ class Home extends React.Component{
         this.setState({goals: JSON.parse(jsonValue)});
         return;
       }
-      this.setState({trick: 'gay'})
       this.storeAsyncData();
     } catch(e) {
         console.log("Failed to read goals_data");
@@ -50,10 +53,24 @@ class Home extends React.Component{
     }
 
   render() {    
+
+    const {theme} = this.props;
+
     const data = () => {
       const newData = [];
       trickLists.filter(trickList => trickList.type === this.state.ddlType).forEach(trickList => newData.push({"label": trickList.name, "value": trickList}))
       return newData;
+    }
+
+    const getTrick = () => {
+      if(this.state.ddlList != ''){
+        let newTrick;
+        do{
+            newTrick = this.state.ddlList.tricks[Math.floor(Math.random() * this.state.ddlList.tricks.length)];
+        } while (newTrick == this.state.trick)
+        this.setState({trick: newTrick.name});
+        console.log("trick is: " + this.state.trick)
+      }
     }
 
     return (
@@ -92,17 +109,8 @@ class Home extends React.Component{
             <Button                 
               mode="contained" 
               disabled={this.state.chooseButtonDisabled}
-              color="#0066FF" 
-              onPress={() => {
-                if(this.state.ddlList != ''){
-                  let newTrick;
-                  do{
-                      newTrick = this.state.ddlList.tricks[Math.floor(Math.random() * this.state.ddlList.tricks.length)];
-                  } while (newTrick == this.state.trick)
-                  this.setState({trick: newTrick.name});
-                  console.log("trick is: " + this.state.trick)
-                }
-              }}
+              color={theme.colors.primary} 
+              onPress={() => getTrick()}
             >
               Choose
             </Button>
@@ -119,9 +127,11 @@ class Home extends React.Component{
               {/* <Button onPress={() => console.log("\nday goals are: " + JSON.stringify(this.state.goals.filter(goal => goal.period === 'day')) )}>HU</Button> */}
               {this.state.goals.filter(goal => goal.period === 'day').map(goal => (
                 <View key={goal.id}>
-                  <View style={styles.goalListItem}>
-                    <Text style={styles.goalText}>{goal.name}</Text>                  
-                  </View>
+                  <TouchableOpacity onPress={() => this.props.navigation.navigate(goal.type)}>
+                    <View style={styles.goalListItem}>
+                      <Text style={styles.goalText}>{goal.name}</Text>                  
+                    </View>
+                  </TouchableOpacity>
                   <Divider style={{marginLeft: 16}}/>
                 </View>
               ))}
@@ -133,12 +143,16 @@ class Home extends React.Component{
   } 
 }
 
-export default Home;
+export default function(props) {
+  const theme = useTheme();
+
+  return <Home {...props} theme={theme} />
+}
 
 const styles = StyleSheet.create({  
   container: {
     flex: 1,
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
   },
 
   //choosers

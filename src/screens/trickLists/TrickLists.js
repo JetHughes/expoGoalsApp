@@ -59,18 +59,23 @@ class TrickLists extends React.Component{
   }
 
   addTrickList = (newTricklist) => {
-    const newTrickLists = this.state.trickLists;
-    newTrickLists.unshift(newTricklist); 
-    this.setState({trickLists: newTrickLists});
+    // const newTrickLists = this.state.trickLists;
+    // newTrickLists.unshift(newTricklist); 
+    // this.setState({trickLists: newTrickLists});
+
+    this.setState({trickLists: this.state.trickLists.concat(newTricklist)})
   }
 
   updateTrickList = (id, newTricks) => {
+    //udate tricks to newtricks
     const newTrickList = this.state.trickLists[this.state.trickLists.findIndex(tricklist => tricklist.id === id)];
     newTrickList.tricks = newTricks;
 
+    //update trickLists
     const newTrickLists = this.state.trickLists;  
     newTrickLists[this.state.trickLists.findIndex(tricklist => tricklist.id === id)] = newTrickList;
-    this.setState({trickLists: newTrickLists})
+
+    this.setState({trickLists: newTrickLists});
   }    
 
   removeTrickList = (id) => {

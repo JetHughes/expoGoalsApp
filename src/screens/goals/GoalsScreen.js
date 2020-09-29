@@ -1,21 +1,22 @@
 import React from 'react';
 import Goal from '../../data/classes/Goal';
-import goals from '../../data/initData/GoalsData';
 import AsyncStorage from '@react-native-community/async-storage';
+import globalStyles from '../../styles/GlobalStyles';
 
 //ui components
 import {View,ScrollView} from 'react-native';
 import GoalsSection from './GoalSection';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 class GoalsScreen extends React.Component{
     constructor(props){
         super();
         this.loadAsyncData();   
-        this.type = props.route.params.type
+        this.type = props.route.params.type;
     }    
 
     state = {
-        goalsData: goals.filter(list => list.type === this.type)
+        goalsData: []
     }
 
     componentDidUpdate() {
@@ -44,14 +45,14 @@ class GoalsScreen extends React.Component{
     }
 
     render() {
-
+    
         const addGoal = (period, name) => {
             const newGoal = new Goal(this.type, period, name);
             const newGoals = [...this.state.goalsData, newGoal];
             console.log("added goal, id was: " + newGoal.id);
             this.setState({goalsData: newGoals});
         }
-    
+
         const editGoal = (id, newName) => {
             let newGoals = this.state.goalsData;
             newGoals[newGoals.findIndex(goal => goal.id === id)].name = newName;

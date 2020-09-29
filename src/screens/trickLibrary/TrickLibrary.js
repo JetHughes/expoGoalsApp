@@ -1,7 +1,7 @@
 import React from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import Trick from '../../data/classes/Trick';
-import tricks from '../../data/initData/TricksData';
+import {useTheme} from '@react-navigation/native';
 
 //ui components
 import {View,Text,StyleSheet,ScrollView,TouchableOpacity,Platform,TextInput } from 'react-native';
@@ -12,13 +12,12 @@ import TrickListItem from '../../components/TrickListItem';
 class TrickLibrary extends React.Component{
   constructor(props) {
     super();
-
     this.loadAsyncData()
     this.type = props.route.params.type;
   }
 
   state = {
-    tricks: tricks,
+    tricks: [],
     addingTrick: false,
     trickNameInputValue: ''
   }
@@ -73,6 +72,8 @@ class TrickLibrary extends React.Component{
   }
   
   render() {
+    const {theme} = this.props;
+
     return (
       <ScrollView keyboardShouldPersistTaps='always'>
       <View style={styles.container}>
@@ -83,7 +84,7 @@ class TrickLibrary extends React.Component{
             <HideableView visible={!this.state.addingTrick}>
               <TouchableOpacity onPress={() => this.setState({addingTrick: true})} style={{flex: 1}} hitSlop={{top: 20, left: 20, bottom: 20, right: 20}}>
                 <View>
-                  <Text style={{color:"#0066FF", fontSize: 17}}>Add Trick</Text>
+                  <Text style={{color: theme.colors.primary, fontSize: 17}}>Add Trick</Text>
                 </View>
               </TouchableOpacity>
             </HideableView>
@@ -94,10 +95,10 @@ class TrickLibrary extends React.Component{
                   style={styles.text}
                   placeholder="Trick Name..."
                   value={this.state.trickNameInputValue}
-                  onChangeText={value => this.setState({trickNameInputValue: value})
-                  }
+                  onChangeText={value => this.setState({trickNameInputValue: value})}
+                  onSubmitEditing={() => this.addTrick(this.state.trickNameInputValue)}
                 />
-                <Button color="#0066FF" onPress={() => this.addTrick(this.state.trickNameInputValue)}>SAVE</Button>
+                <Button color={theme.colors.primary} onPress={() => this.addTrick(this.state.trickNameInputValue)}>ADD</Button>
                 <Button color="#ff0033" onPress={() => this.setState({addingTrick: false, trickNameInputValue: ''})}>CANCEL</Button>
             </HideableView>
 
@@ -120,7 +121,11 @@ class TrickLibrary extends React.Component{
   } 
 }
 
-export default TrickLibrary;
+export default function(props) {
+  const theme = useTheme();
+
+  return <TrickLibrary {...props} theme={theme} />
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -130,12 +135,12 @@ const styles = StyleSheet.create({
     shadowColor: '#333',
     shadowOpacity: 0.3,
     shadowOffset: {width: 1, height: 1},
-    marginBottom: Platform.OS = "ios" ? 44: 48,
+    marginBottom: Platform.OS === "ios" ? 44: 48,
   },
   trickItem: {
     flex: 1,
     flexDirection: 'row',
-    height: Platform.OS = "ios" ? 44: 48,
+    height: Platform.OS === "ios" ? 44: 48,
     alignItems: "center",
     paddingHorizontal: 16,
     backgroundColor: "white",

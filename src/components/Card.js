@@ -4,10 +4,9 @@ import React from 'react';
 import {StyleSheet,View} from 'react-native'
 
 class Card extends React.Component {
-
     render(){
             return(
-                <View style={[cardStyles.card, {...this.props.style}]}>
+                <View style={...this.props.style, cardStyles.card }>
                     {this.props.children}
                 </View>
             );    

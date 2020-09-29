@@ -82,9 +82,8 @@ const styles = StyleSheet.create({
     item: {
         height: 48,
         backgroundColor: 'white',
-        paddingLeft: 48,
-        paddingRight: 16,
-        paddingVertical: 12
+        paddingHorizontal: 16,
+        paddingVertical: 12,
     },
     goalItemContainer: {
         flexDirection: 'row'

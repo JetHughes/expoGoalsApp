@@ -1,5 +1,6 @@
 import React from 'react';
 import Utils from '../../Utils';
+import {Platform} from 'react-native';
 
 //ui components
 import {View,Text,StyleSheet,TouchableOpacity,TextInput} from 'react-native';
@@ -9,39 +10,31 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Divider} from 'react-native-paper';
 
 class GoalsSection extends React.Component {
-
     state={
         inputValue: '',
         inputIsVisible: false,
-        addGoalIcon: 'plus'
     }
 
     addGoal = (name) => {
-        // this.setState({
-        //     // inputValue: '',
-        //     //inputIsVisible: false,
-        //     icon: 'plus'
-        // });
-        if(name){
+        if(name.length > 0){
             this.props.addGoal(this.props.period, name);
         }
     }
 
     showInput = () => {
-        if(this.state.inputIsVisible) {this.setState({addGoalIcon: 'plus'})}
-        else if(!this.state.inputIsVisible){this.setState({addGoalIcon: 'minus'})}
         this.setState({inputIsVisible: !this.state.inputIsVisible})
     }
 
-    render(){
+    render(){        
+
         return(
             <View style={{width: '100%', marginTop: 16}}>
 
                 {/* header */}
                 <View style={styles.headerContainer}>
-                    <Text style={styles.sectionHeader}>{Utils.toCaps(this.props.period)}</Text>
+                    <Text style={styles.sectionHeader}>{this.props.period.toUpperCase()}</Text>
                     <TouchableOpacity onPress={() => this.props.navigation.navigate('NewGoalModal', {addGoal: this.addGoal})}>
-                        <Icon style={styles.sectionIcon} name={this.state.addGoalIcon} size={24}/>
+                        <Icon name="plus" size={24}/>
                     </TouchableOpacity> 
                 </View>
 
@@ -64,10 +57,10 @@ class GoalsSection extends React.Component {
                             </TouchableOpacity>
                         </View>
                         <Divider style={{marginHorizontal: 8}}/>
-                    </HideableView>
+                    </HideableView>                    
 
                     {/* items */}
-                    {this.props.goals.slice(0).reverse().map((goal) => (
+                    {this.props.goals.slice(0).reverse().map((goal) => (                        
                         <View key={goal.id}>    
                             <GoalItem                              
                                 title={goal.name}
@@ -76,7 +69,7 @@ class GoalsSection extends React.Component {
                                 moveItem={() => this.props.moveGoal(this.props.period, goal.id)}
                                 moveItemDown={() => this.props.moveGoalDown(this.props.period, goal.id)}
                             />
-                            <Divider style={{marginHorizontal: 8}}/>
+                            <Divider style={{marginLeft: 16}}/>
                         </View>
                     ))}
                 </View>
@@ -96,17 +89,15 @@ const styles = StyleSheet.create({
     },
     sectionHeader: {
         flex: 1,
-        fontWeight: '500',
-        fontSize: 20,
-        letterSpacing: 0.15
-    },
-    sectionIcon: {
-        //marginRight: 8
+        color: 'gray',
+        alignSelf: 'flex-end'
     },
     goalsContainer:{
         shadowColor: '#333',
         shadowOpacity: 0.3,
         shadowOffset: {width: 1, height: 1},
+        minHeight: Platform.OS === "ios" ? 44: 48,
+        backgroundColor: "white"
     },
     inputContainer: {
         flexDirection: 'row',
