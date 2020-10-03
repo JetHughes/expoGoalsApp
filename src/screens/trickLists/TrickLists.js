@@ -19,7 +19,7 @@ class TrickLists extends React.Component{
       headerRight: () => (
         <View style={globalStyles.headerRight}>
             <TouchableOpacity hitSlop={{top: 20, left: 20, bottom: 20, right: 20}} 
-              onPress={() => props.navigation.navigate('NewListModal', {addTrickList: this.addTrickList, updateTrickList: this.updateTrickList})}
+              onPress={() => props.navigation.navigate('NewListModal', {addTrickList: this.addTrickList, updateTrickList: this.updateTrickList, removeTrickList: this.removeTrickList})}
               style={globalStyles.headerButton}
            >
                 <Icon name="plus" size={24} />

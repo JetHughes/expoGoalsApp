@@ -9,6 +9,7 @@ import {Dropdown} from 'react-native-material-dropdown';
 const NewListModal = ({navigation, route}) => {
     const {addTrickList} = route.params;
     const {updateTrickList} = route.params;
+    const {removeTrickList} = route.params;
 
     const [name, setName] = useState('');
     const [ddlType, setDdlType] = useState('');
@@ -17,7 +18,7 @@ const NewListModal = ({navigation, route}) => {
         if(name.length > 0 && ddlType.length > 0){
             const newTrickList = new TrickList([], ddlType, name);
             addTrickList(newTrickList);
-            navigation.navigate('Add Tricks', {updateTrickList: updateTrickList, trickList: newTrickList});
+            navigation.navigate('Add Tricks', {updateTrickList: updateTrickList, trickList: newTrickList, removeTrickList: removeTrickList});
         }
     }   
     
