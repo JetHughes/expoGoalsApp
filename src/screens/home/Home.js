@@ -56,9 +56,9 @@ class Home extends React.Component{
 
     const {theme} = this.props;
 
-    const data = () => {
+    const data = (type) => {
       const newData = [];
-      trickLists.filter(trickList => trickList.type === this.state.ddlType).forEach(trickList => newData.push({"label": trickList.name, "value": trickList}))
+      trickLists.filter(trickList => trickList.type === type).forEach(trickList => newData.push({"label": trickList.name, "value": trickList}))
       return newData;
     }
 
@@ -84,7 +84,9 @@ class Home extends React.Component{
                 <Dropdown 
                   label="Type of"
                   useNativeDriver={true}
-                  onChangeText={(value) => this.setState({ddlType: value})}
+                  onChangeText={(value) => {
+                    this.setState({ddlType: value,ddlList: ''});
+                  }}
                   value={this.state.ddlType}
                   data={[{label:"Rails", value: "rails"}, {label:"Jumps",value: "jumps"}, {label:"Pipe",value: "pipe"}]}/>
               </View>
@@ -102,7 +104,7 @@ class Home extends React.Component{
                     this.setState({ddlList: value})
                   }}
                   value={this.state.ddlList}
-                  data={data()} />  
+                  data={data(this.state.ddlType)} />  
                 </View>
             </View>
 
