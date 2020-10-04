@@ -2,13 +2,14 @@ import React,{useLayoutEffect,useEffect,useState} from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 
 //ui components
-import {View, Text, StyleSheet, Button, ScrollView, Platform} from 'react-native';
+import {View, Text, StyleSheet, ScrollView, Platform, TouchableOpacity} from 'react-native';
 import AddTricksListItem from './AddTricksListItem';
-import { Divider } from 'react-native-paper';
+import { Divider, Button } from 'react-native-paper';
 
 const AddTricks = ({route, navigation}) => {
   const {trickList} = route.params;
   const {updateTrickList} = route.params;
+  const {removeTrickList} = route.params;
 
   const [unselectedTricks, setUnselectedTricks] = useState([]);
   const [selectedTricks, setSelectedTricks] = useState([]);
@@ -17,11 +18,20 @@ const AddTricks = ({route, navigation}) => {
     loadTricks();
   }, [])
 
+  const cancel = () => {
+    removeTrickList(trickList.id);
+    navigation.navigate("Trick Lists");
+  }
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <Button onPress={() => navigation.navigate('Trick Lists')} title="Done" />
+        <View style={{flexDirection: "row"}}>
+          <Button onPress={() => cancel()} color="red" mode="flat">Cancel</Button>
+          <Button onPress={() => navigation.navigate('Trick Lists')} color="#0066FF" mode="flat">Save</Button>
+        </View>
       ),
+      headerLeft: () => null,      
     });
   }, [navigation]);
 

@@ -27,7 +27,7 @@ const MyTheme = {
     },
 };
 
-//Goals
+//#region Goals
 const GoalsTopTabs = createMaterialTopTabNavigator();
 function GoalsTobTabsScreen() {
     return (
@@ -51,9 +51,10 @@ function GoalsStackScreen() {
         </GoalsStack.Navigator>
     )
 }
+//#endregion
 
-//TrickLists Stack and tabs
-const TrickListsStack = createNativeStackNavigator();
+//#region TrickLists
+const TrickListsStack = createStackNavigator();
 function TrickListsStackScreen({navigation, route}) {
     return (
         <TrickListsStack.Navigator
@@ -80,7 +81,7 @@ function TrickListsStackScreen({navigation, route}) {
             <TrickListsStack.Screen 
                 name="View List" 
                 component={ViewList} 
-                options={ ({route}) => ( {
+                options={({route}) => ({
                     headerTitleAlign: "left",
                     headerBackTitleVisible: false,
                     cardShadowEnabled:true,
@@ -90,17 +91,15 @@ function TrickListsStackScreen({navigation, route}) {
             />
             <TrickListsStack.Screen 
                 name="Add Tricks"
-                component={AddTricks}
-                options={{     
-                    headerTitle: "Add Tricks",               
-                    headerLeft: () => null
-                }}
+                component={AddTricks}                
             />
         </TrickListsStack.Navigator>
     )
 }
 
-//Trick Library
+//#endregion
+
+//#region Trick Library
 const TrickLibraryStack = createNativeStackNavigator();
 function TrickLibraryStackScreen() {
     return(
@@ -128,8 +127,9 @@ function TrickLibraryTopTabsScreen() {
     )
 
 }
+//#endregion
 
-//Home
+//#region Home
 const HomeStack = createNativeStackNavigator();
 function HomeStackScreen({ navigation }) {
     return (
@@ -146,7 +146,9 @@ function HomeStackScreen({ navigation }) {
     )
 }
 
-//Main
+//#endregion
+
+//#region Main
 const MainBottomTabs = createMaterialBottomTabNavigator();
 function MainBottomTabScreens() {
     return (
@@ -200,6 +202,7 @@ function MainBottomTabScreens() {
         </MainBottomTabs.Navigator>
     )
 }
+//#endregion
 
 const ModalStack = createNativeStackNavigator();
 function HomeApp(props) {
