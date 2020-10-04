@@ -37,7 +37,7 @@ const AddTricks = ({route, navigation}) => {
 
   const loadTricks = async () => {
     try {
-      const jsonValue = await AsyncStorage.getItem('trickLibrary_data')
+      const jsonValue = await AsyncStorage.getItem('tricks_data')
       if (jsonValue !== null) {        
         setUnselectedTricks(JSON.parse(jsonValue).filter(trick => trick.type === trickList.type));
       }

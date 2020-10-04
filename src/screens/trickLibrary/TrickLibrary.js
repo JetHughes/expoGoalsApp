@@ -28,23 +28,22 @@ class TrickLibrary extends React.Component{
 
   loadAsyncData = async () => {
       try {
-        const jsonValue = await AsyncStorage.getItem("trickLibrary_data")
+        const jsonValue = await AsyncStorage.getItem("tricks_data")
         if(jsonValue != null){
           this.setState({tricks: JSON.parse(jsonValue)});
           return;
         }
       } catch(e) {
-          console.log("Failed to read trickLibrary_data");
+          console.log("Failed to read tricks_data");
       }
   }
 
   storeAsyncData = async () => {
       try {
           const jsonValue = JSON.stringify(this.state.tricks);
-          console.log(jsonValue);
-          await AsyncStorage.setItem("trickLibrary_data", jsonValue);
+          await AsyncStorage.setItem("tricks_data", jsonValue);
         } catch (e) {
-          console.log("Failed to save trickLibrary_data");
+          console.log("Failed to save tricks_data");
         }
   }
 

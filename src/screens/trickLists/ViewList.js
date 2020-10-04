@@ -38,7 +38,6 @@ class ViewList extends React.Component {
 
     componentDidMount(){
         this.setState({tricks: this.trickList.tricks})
-        console.log("Component did update")
     }
 
     render() {
