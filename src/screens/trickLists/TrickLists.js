@@ -1,8 +1,8 @@
 import React from 'react';
-import trickLists from '../../data/initData/TrickListsData';
 import globalStyles from '../../styles/GlobalStyles';
 import AsyncStorage from '@react-native-community/async-storage';
 import Utils from '../../Utils';
+import trickLists from '../../data/initData/TrickListsData';
 
 //ui components
 import {View,Text,StyleSheet,TouchableOpacity,Platform} from 'react-native';
@@ -30,7 +30,7 @@ class TrickLists extends React.Component{
   }
 
   state = {
-    trickLists: trickLists
+    trickLists: []
   }
 
   componentDidUpdate() {
@@ -41,6 +41,7 @@ class TrickLists extends React.Component{
       try {
         const jsonValue = await AsyncStorage.getItem("trickLists_data")
         if(jsonValue != null){
+          // console.log(jsonValue);
           this.setState({trickLists: JSON.parse(jsonValue)});
           return;
         }

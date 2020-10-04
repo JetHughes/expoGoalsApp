@@ -32,7 +32,6 @@ class Home extends React.Component{
     try {
       const jsonValue = await AsyncStorage.getItem("goals_data")
       if(jsonValue != null){
-        console.log('got goals data: ' + jsonValue);
         this.setState({goals: JSON.parse(jsonValue)});
         return;
       }
@@ -42,18 +41,20 @@ class Home extends React.Component{
     }
   }
 
-    storeAsyncData = async () => {
-      try {
-        const jsonValue = JSON.stringify(goals);
-        console.log(jsonValue);
-        await AsyncStorage.setItem("goals_data", jsonValue);
-      } catch (e) {
-        console.log("Failed to save goals_data");
-      }
+  storeAsyncData = async () => {
+    try {
+      const jsonValue = JSON.stringify(goals);
+      await AsyncStorage.setItem("goals_data", jsonValue);
+    } catch (e) {
+      console.log("Failed to save goals_data");
     }
+  }
+
+  componentDidMount() {
+    this.loadGoalsData();
+  }
 
   render() {    
-
     const {theme} = this.props;
 
     const data = (type) => {
@@ -69,7 +70,6 @@ class Home extends React.Component{
             newTrick = this.state.ddlList.tricks[Math.floor(Math.random() * this.state.ddlList.tricks.length)];
         } while (newTrick == this.state.trick)
         this.setState({trick: newTrick.name});
-        console.log("trick is: " + this.state.trick)
       }
     }
 
@@ -187,7 +187,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     letterSpacing: 0.15,
     marginBottom: 8,
-    marginLeft: 16
   },
 
   //goals
