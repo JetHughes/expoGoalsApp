@@ -27,11 +27,14 @@ const AddTricks = ({route, navigation}) => {
     navigation.setOptions({
       headerRight: () => (
         <View style={{flexDirection: "row"}}>
-          <Button onPress={() => cancel()} color="red" mode="flat">Cancel</Button>
           <Button onPress={() => navigation.navigate('Trick Lists')} color="#0066FF" mode="flat">Save</Button>
         </View>
       ),
-      headerLeft: () => null,      
+      headerLeft: () => (
+        <View style={{flexDirection: "row"}}>
+          <Button onPress={() => cancel()} color="red" mode="flat">Cancel</Button>
+        </View>
+      ),      
     });
   }, [navigation]);
 

@@ -1,8 +1,10 @@
+import Utils from '../../Utils';
+
 class Trick {
     constructor(name, type) {
         this.name = name;
         this.type = type;
-        this.id = Date.now() + ( (Math.random()*100000).toFixed());    
+        this.id = Utils.unique();    
     }
 }
 

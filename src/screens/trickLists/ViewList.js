@@ -23,7 +23,7 @@ class ViewList extends React.Component {
                         <Icon name="plus" size={24} />
                     </TouchableOpacity>
                 </View>
-              )
+            )
         });
 
         this.trickList = props.route.params.trickList;
@@ -70,33 +70,33 @@ class ViewList extends React.Component {
 
         return(
             <ScrollView style={styles.container} keyboardShouldPersistTaps="always">
-        
-            <HideableView visible={this.state.newTrickInputVisible}>
-                <View style={styles.trick}>
-                     <TextInput
-                        autoFocus={true}
-                        style={styles.listItemText}
-                        placeholder="Trick Name..."
-                        value={this.state.trickNameInputValue}
-                        onChangeText={value => this.setState({trickNameInputValue: value})
-                        }
-                     />
-                     <Button color="#0066FF" onPress={() => addTrick(this.state.trickNameInputValue)}>SAVE</Button>
-                     <Button color="#ff0033" onPress={() => cancel()}>CANCEL</Button>
-                </View>
-            </HideableView>
- 
-             <View style={styles.tricksContainer}>
-                 {this.state.tricks.map(trick => (
-                    <TrickListItem 
-                        key={trick.id}
-                        trick={trick}
-                        removeTrick={removeTrick}
-                        editTrick={editTrick}
-                    />
-                 ))}
-             </View>            
-         </ScrollView>
+            
+                <HideableView visible={this.state.newTrickInputVisible}>
+                    <View style={styles.trick}>
+                        <TextInput
+                            autoFocus={true}
+                            style={styles.listItemText}
+                            placeholder="Trick Name..."
+                            value={this.state.trickNameInputValue}
+                            onChangeText={value => this.setState({trickNameInputValue: value})
+                            }
+                        />
+                        <Button color="#0066FF" onPress={() => addTrick(this.state.trickNameInputValue)}>SAVE</Button>
+                        <Button color="#ff0033" onPress={() => cancel()}>CANCEL</Button>
+                    </View>
+                </HideableView>
+    
+                <View style={styles.tricksContainer}>
+                    {this.state.tricks.map(trick => (
+                        <TrickListItem 
+                            key={trick.id}
+                            trick={trick}
+                            removeTrick={removeTrick}
+                            editTrick={editTrick}
+                        />
+                    ))}
+                </View>            
+            </ScrollView>
         )   
     }
 }

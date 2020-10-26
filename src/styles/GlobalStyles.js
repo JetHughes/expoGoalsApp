@@ -1,23 +1,12 @@
 import {StyleSheet} from 'react-native';
 
 const globalStyles = StyleSheet.create({
-    container: {
-      width: '100%',
-      paddingHorizontal: 8
-    },
     headerRight: {
       flexDirection: 'row',
       marginRight: 16
     },
     headerButton: {
       marginLeft: 24
-    },
-    menuIcon: {
-      marginHorizontal: 16
-    },
-    overLine: {
-      fontSize: 10,
-      letterSpacing: 1.5,
     },
     modalScreen: {      
       width: 280,

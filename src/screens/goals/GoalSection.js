@@ -1,6 +1,7 @@
 import React from 'react';
 import Utils from '../../Utils';
 import {Platform} from 'react-native';
+import Goal from '../../data/classes/Goal';
 
 //ui components
 import {View,Text,StyleSheet,TouchableOpacity,TextInput} from 'react-native';
@@ -25,6 +26,10 @@ class GoalsSection extends React.Component {
         this.setState({inputIsVisible: !this.state.inputIsVisible})
     }
 
+    toggleComplete = (goal) => {
+        this.props.editGoal(goal.id, new Goal(goal.type, goal.period === "done" ? "day" : "done", goal.name))
+    }
+
     render(){        
 
         return(
@@ -33,9 +38,11 @@ class GoalsSection extends React.Component {
                 {/* header */}
                 <View style={styles.headerContainer}>
                     <Text style={styles.sectionHeader}>{this.props.period.toUpperCase()}</Text>
-                    <TouchableOpacity onPress={() => this.props.navigation.navigate('NewGoalModal', {addGoal: this.addGoal})}>
-                        <Icon name="plus" size={24}/>
-                    </TouchableOpacity> 
+                    <HideableView visible={this.props.addGoal? true : false}>
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate('NewGoalModal', {addGoal: this.addGoal})}>
+                            <Icon name="plus" size={24}/>
+                        </TouchableOpacity> 
+                    </HideableView>
                 </View>
 
                 <View style={styles.goalsContainer}>         
@@ -63,9 +70,10 @@ class GoalsSection extends React.Component {
                     {this.props.goals.slice(0).reverse().map((goal) => (                        
                         <View key={goal.id}>    
                             <GoalItem                              
-                                title={goal.name}
+                                goal={goal}
                                 deleteItem={() => this.props.deleteGoal(goal.id)} 
-                                editItem={(newName) => this.props.editGoal(goal.id,  newName)}
+                                toggleComplete={() => this.toggleComplete(goal)}
+                                editItem={(newName) => this.props.editGoal(goal.id,  new Goal(goal.type, goal.period, newName))}
                                 moveItem={() => this.props.moveGoal(this.props.period, goal.id)}
                                 moveItemDown={() => this.props.moveGoalDown(this.props.period, goal.id)}
                             />

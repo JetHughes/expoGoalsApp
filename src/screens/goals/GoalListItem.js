@@ -6,12 +6,13 @@ import globalStyles from '../../styles/GlobalStyles';
 import {View,Text,StyleSheet,TouchableOpacity,TextInput} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Menu,MenuOptions,MenuOption,MenuTrigger,} from 'react-native-popup-menu';
+import HideableView from '../../components/HideableView';
 
 class GoalItem extends React.Component {   
 
     state = {
         editing: false,
-        inputValue: this.props.title,
+        inputValue: this.props.goal.name,
         inputIsHidden: true
     }
 
@@ -26,6 +27,10 @@ class GoalItem extends React.Component {
     edit = () => {
         this.setState({editing: true})
     } 
+
+    toggleComplete = () => {
+        this.props.toggleComplete();
+    }
 
     render(){      
         if(this.state.editing){
@@ -50,24 +55,39 @@ class GoalItem extends React.Component {
         return(
             <View style={styles.item}>
                 <View style={styles.goalItemContainer}>
-                    <Text style={styles.text}>{Utils.toCaps(this.props.title)}</Text>                    
+                    <Text style={styles.text}>{Utils.toCaps(this.props.goal.name)}</Text>                    
                     <Menu>
                         <MenuTrigger hitSlop={{top: 20, left: 20, bottom: 20, right: 20}}>
                            <Icon name='dots-vertical' size={24} color="#000"/>
                         </MenuTrigger>
                         <MenuOptions style={styles.menuContainer}>
-                            <MenuOption style={globalStyles.menuItem} onSelect={this.props.moveItem}>
-                                <Text >Move Up</Text>
-                            </MenuOption>   
-                            <MenuOption style={globalStyles.menuItem} onSelect={this.props.moveItemDown}>
-                                <Text >Move Down</Text>
-                            </MenuOption>  
+
+                            <MenuOption style={globalStyles.menuItem} onSelect={this.toggleComplete}>
+                                <Text style={{color: "rgba(18,18,18,0.88)"}}>{this.props.goal.period === "done" ? "Un Complete"  : "Complete!"}</Text>
+                            </MenuOption>
+
+                            <HideableView visible={this.props.goal.period != "done" ? true : false}>
+                                <MenuOption style={globalStyles.menuItem} onSelect={this.props.moveItem}>
+                                    <Text >Move Up</Text>
+                                </MenuOption>   
+                            </HideableView>
+
+                            <HideableView visible={this.props.goal.period != "done" ? true : false}>
+                                <MenuOption style={globalStyles.menuItem} onSelect={this.props.moveItemDown}>
+                                    <Text >Move Down</Text>
+                                </MenuOption>  
+                            </HideableView>                            
+
                             <MenuOption style={globalStyles.menuItem} onSelect={this.edit}>
-                                <Text >Edit</Text>
+                                <Text style={{color: "rgba(18,18,18,0.88)"}}>Edit</Text>
                             </MenuOption>
-                            <MenuOption style={globalStyles.menuItem} onSelect={this.props.deleteItem}>
-                                <Text >Delete</Text>
-                            </MenuOption>
+
+                            <HideableView visible={this.props.deleteItem != null ? true : false}>
+                                <MenuOption style={globalStyles.menuItem} onSelect={this.props.deleteItem}>
+                                    <Text style={{color: "#ff0033"}}>Delete</Text>
+                                </MenuOption>
+                            </HideableView>
+
                         </MenuOptions>
                     </Menu>
                 </View>

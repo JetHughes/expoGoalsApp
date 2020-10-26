@@ -18,14 +18,32 @@ import NewListModal from './screens/trickLists/NewListModal';
 import ViewList from './screens/trickLists/ViewList';
 import NewGoalModal from './screens/goals/NewGoalModal';
 import GoalsScreen from './screens/goals/GoalsScreen';
+import TrickGenerator from './screens/trickGenerator/TrickGenerator'
 
 const MyTheme = {
     ...DefaultTheme,
     colors: {
         ...DefaultTheme.colors,
-        primary: 'rgb(0,102,255)',
+        //primary: 'rgb(0,103,255)',
+        primary: 'rgba(18,18,18,0.88)'
     },
 };
+
+//#region Trick Generator
+const TrickGeneratorStack = createNativeStackNavigator();
+function TrickGeneratorStackScreens() {
+    return (
+        <TrickGeneratorStack.Navigator>
+            <TrickGeneratorStack.Screen 
+                name='Trick Generator' 
+                component={TrickGenerator} 
+                initialParams={{type: 'rails'}}
+            />
+        </TrickGeneratorStack.Navigator>
+    )
+}
+
+//#endregion
 
 //#region Goals
 const GoalsTopTabs = createMaterialTopTabNavigator();
@@ -80,8 +98,9 @@ function TrickListsStackScreen({navigation, route}) {
             />
             <TrickListsStack.Screen 
                 name="View List" 
-                component={ViewList} 
+                component={ViewList}                 
                 options={({route}) => ({
+                    headerTintColor: "#121212",
                     headerTitleAlign: "left",
                     headerBackTitleVisible: false,
                     cardShadowEnabled:true,
@@ -134,13 +153,11 @@ const HomeStack = createNativeStackNavigator();
 function HomeStackScreen({ navigation }) {
     return (
         <HomeStack.Navigator
-            initialRouteName="Home">            
-            <HomeStack.Screen
+            initialRouteName="Home"
+        >            
+            <HomeStack.Screen                
                 name='Home'
-                component={Home}                 
-                options={{       
-                                 
-                }} 
+                component={Home}          
             />
         </HomeStack.Navigator>
     )
@@ -154,20 +171,27 @@ function MainBottomTabScreens() {
     return (
         <MainBottomTabs.Navigator
             initialRouteName="HomeStack"
+            activeColor="#fff"                        
+            barStyle={{
+                backgroundColor: "#121212",                
+            }}
+
             screenOptions={({ route }) => ({
-            tabBarIcon: ({color }) => {
-                let iconName;    
-                if (route.name === 'HomeStack') {
-                iconName = 'home';
-                } else if (route.name === 'GoalsStack') {
-                iconName = 'target';
-                } else if (route.name === 'TrickListsStack') {
-                iconName = 'playlist-check';
-                } else if (route.name === 'TrickLibraryStack') {
-                iconName = 'library-shelves';
-                }
-                return <Icon name={iconName} size={24} color={color} />;
-            },
+                tabBarIcon: ({color }) => {
+                    let iconName;    
+                    if (route.name === 'HomeStack') {
+                        iconName = 'home';
+                    } else if (route.name === 'GoalsStack') {
+                        iconName = 'target';
+                    } else if (route.name === 'TrickListsStack') {
+                        iconName = 'playlist-check';
+                    } else if (route.name === 'TrickLibraryStack') {
+                        iconName = 'library-shelves';
+                    } else if (route.name === 'TrickGeneratorStack') {
+                        iconName = 'crystal-ball'
+                    }
+                    return <Icon name={iconName} size={24} color={color} />;
+                },
             })}
         >
             <MainBottomTabs.Screen
@@ -198,6 +222,13 @@ function MainBottomTabScreens() {
                     tabBarLabel: 'Trick Library',
                 }}                
             />
+            <MainBottomTabs.Screen
+                name="TrickGeneratorStack"
+                component={TrickGeneratorStackScreens}
+                options={{
+                    tabBarLabel: 'Generator',
+                }}                
+            />
 
         </MainBottomTabs.Navigator>
     )
@@ -209,7 +240,7 @@ function HomeApp(props) {
     return(
         <NavigationContainer theme={MyTheme}>
         <ModalStack.Navigator
-          initialRouteName="RootStack"
+          initialRouteName="TrickGeneratorStack"
           screenOptions={() => ({
             headerShown: false,
             gestureEnabled: true,
@@ -219,10 +250,7 @@ function HomeApp(props) {
           headerMode="none"
         >                   
           <ModalStack.Screen name="Main" component={MainBottomTabScreens} initialParams={props.goalsData, props.tricksData, props.trickListsData}/>
-
-          {/* modals */}
           <ModalStack.Screen name="NewListModal" component={NewListModal}/>
-          {/* <ModalStack.Screen name="NewTrickModal" component={NewTrickModal}/> */}
           <ModalStack.Screen name="NewGoalModal" component={NewGoalModal} />
         </ModalStack.Navigator>
         </NavigationContainer>

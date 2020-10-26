@@ -1,9 +1,9 @@
 import Goal from '../classes/Goal';
 
 const goals = [
-        new Goal('jumps', 'day', 'Back 3'),
-        new Goal('pipe', 'day', 'crippler'),
-        new Goal('rails', 'day', 'Cab 2 on'),
+        new Goal('jumps', 'day', 'my jump goal'),
+        new Goal('pipe', 'day', 'my pipe goal'),
+        new Goal('rails', 'day', 'my rail goal'),
 ]
 
 export default goals;

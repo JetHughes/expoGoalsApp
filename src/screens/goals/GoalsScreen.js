@@ -50,12 +50,14 @@ class GoalsScreen extends React.Component{
             const newGoal = new Goal(this.type, period, name);
             const newGoals = [...this.state.goalsData, newGoal];
             console.log("added goal, id was: " + newGoal.id);
+            console.log("goals are: " + JSON.stringify(this.state.goalsData));
             this.setState({goalsData: newGoals});
         }
 
-        const editGoal = (id, newName) => {
+        const editGoal = (id, newGoal) => {
+            console.log(JSON.stringify(newGoal));
             let newGoals = this.state.goalsData;
-            newGoals[newGoals.findIndex(goal => goal.id === id)].name = newName;
+            newGoals[newGoals.findIndex(goal => goal.id === id)] = newGoal;
             this.setState({goalsData: newGoals});
         }
     
@@ -87,12 +89,12 @@ class GoalsScreen extends React.Component{
     
         const type = this.props.route.params.type;
 
-        return(                  
+        return(   
             <ScrollView keyboardShouldPersistTaps="always">
                 <View>
                     <GoalsSection
-                        goals={this.state.goalsData.filter(goal => goal.type === type).filter(goal => goal.period === 'day')}
-                        period='day'
+                        goals={this.state.goalsData.filter(goal => goal.type === type).filter(goal => goal.period === "day")}
+                        period="day"
                         deleteGoal={(id) => deleteGoal(id)}
                         editGoal={(id, newName) => editGoal(id,  newName)}
                         moveGoal={(period, id) => moveGoal(period, id)}
@@ -101,22 +103,30 @@ class GoalsScreen extends React.Component{
                         navigation={this.props.navigation}
                     />                    
                     <GoalsSection
-                        goals={this.state.goalsData.filter(list => list.type === type).filter(goal => goal.period === 'week')}
-                        period='week'
+                        goals={this.state.goalsData.filter(list => list.type === type).filter(goal => goal.period === "week")}
+                        period="week"
                         deleteGoal={(id) => deleteGoal(id)}
                         editGoal={(id, newName) => editGoal(id,  newName)}
                         moveGoal={(period, id) => moveGoal(period, id)}
                         addGoal={(period, name) => addGoal(period, name)}
                         moveGoalDown={(period, id) => moveGoalDown(period, id)}
-                        navigation={this.props.navigation}                    />                    
+                        navigation={this.props.navigation}
+                    />                    
                     <GoalsSection
-                        goals={this.state.goalsData.filter(list => list.type === type).filter(goal => goal.period === 'season')}
-                        period='season'
+                        goals={this.state.goalsData.filter(list => list.type === type).filter(goal => goal.period === "season")}
+                        period="season"
                         deleteGoal={(id) => deleteGoal(id)}
                         editGoal={(id, newName) => editGoal(id,  newName)}
                         moveGoal={(period, id) => moveGoal(period, id)}
                         addGoal={(period, name) => addGoal(period, name)}
                         moveGoalDown={(period, id) => moveGoalDown(period, id)}
+                        navigation={this.props.navigation}
+                    />
+                    <GoalsSection
+                        goals={this.state.goalsData.filter(list => list.type === type).filter(goal => goal.period === "done")}
+                        period="done"
+                        deleteGoal={(id) => deleteGoal(id)}
+                        editGoal={(id, newName) => editGoal(id,  newName)}
                         navigation={this.props.navigation}
                     />
                 </View>        
