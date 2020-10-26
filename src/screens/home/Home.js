@@ -1,10 +1,9 @@
 import React from 'react'
-import trickLists from '../../data/initData/TrickListsData';
 import Utils from '../../Utils';
 import AsyncStorage from '@react-native-community/async-storage';
 import goals from '../../data/initData/GoalsData';
 import {useTheme} from '@react-navigation/native';
-import { YellowBox } from 'react-native';
+import { ToastAndroid, YellowBox } from 'react-native';
 
 //ui components
 import {View,Text,StyleSheet,ScrollView,Platform,TouchableOpacity, LogBox} from 'react-native';
@@ -17,31 +16,28 @@ YellowBox.ignoreWarnings(['Warning: ...']);
 class Home extends React.Component{
   constructor(){
     super();
-    this.loadGoalsData();
+    this.loadAsyncData();
   }
 
   state = {
     ddlList: '',
     ddlType: 'rails',
     trick: 'Trick',
-    chooseButtonDisabled: true,
-    goals: []
+    goals: [],
+    tricklists: []
   }
 
-  loadGoalsData = async () => {
-    try {
-      const jsonValue = await AsyncStorage.getItem("goals_data")
-      if(jsonValue != null){
-        this.setState({goals: JSON.parse(jsonValue)});
-        return;
-      }
-      this.storeAsyncData();
-    } catch(e) {
-        console.log("Failed to read goals_data");
+  storeOptionData = async () => {
+    try {      
+      const jsonValue = JSON.stringify(this.state.ddlList);
+      await AsyncStorage.setItem("ddlList_data", jsonValue);
+      await AsyncStorage.setItem("ddlType_data", this.state.ddlType);
+    } catch (e) {
+      console.log("Failed to save option_data");
     }
   }
 
-  storeAsyncData = async () => {
+  storeGoalsData = async () => {
     try {
       const jsonValue = JSON.stringify(goals);
       await AsyncStorage.setItem("goals_data", jsonValue);
@@ -50,8 +46,48 @@ class Home extends React.Component{
     }
   }
 
+  loadAsyncData = async () => {
+
+    //trickLists data
+    try {
+      const jsonValue = await AsyncStorage.getItem("trickLists_data")
+      if(jsonValue != null){
+        this.state.trickLists = JSON.parse(jsonValue);
+        console.log("\n\nloaded trickList data: " + jsonValue)
+      }
+    } catch(e) {
+        console.log("Failed to read trickLists_data");
+    }
+      
+    //options data
+    try {
+      const list = await AsyncStorage.getItem("ddlList_data");
+      const type = await AsyncStorage.getItem("ddlType_data");
+      if(list !== null && type !== null){
+        this.setState({ddlList: list});
+        this.setState({ddlType: type});
+      } else{
+        this.storeOptionData();  
+      }      
+    } catch(e) {
+        console.log("Failed to read goals_data");
+    }
+
+    //goals data
+    try {  
+      const jsonValue = await AsyncStorage.getItem("goals_data")
+      if(jsonValue != null){
+        this.setState({goals: JSON.parse(jsonValue)});
+      } else{
+        this.storeGoalsData();
+      }  
+    } catch(e) {
+        console.log("Failed to read goals_data");
+    }    
+  }
+
   componentDidMount() {
-    this.loadGoalsData();
+    this.loadAsyncData();
   }
 
   render() {    
@@ -59,8 +95,10 @@ class Home extends React.Component{
 
     const data = (type) => {
       const newData = [];
-      trickLists.filter(trickList => trickList.type === type).forEach(trickList => newData.push({"label": trickList.name, "value": trickList}))
-      return newData;
+      if(this.state.trickLists){
+        this.state.trickLists.filter(trickList => trickList.type === type).forEach(trickList => newData.push({"label": trickList.name, "value": trickList}))
+      }
+      return newData;  
     }
 
     const getTrick = () => {
@@ -70,22 +108,26 @@ class Home extends React.Component{
             newTrick = this.state.ddlList.tricks[Math.floor(Math.random() * this.state.ddlList.tricks.length)];
         } while (newTrick == this.state.trick)
         this.setState({trick: newTrick.name});
+        this.storeOptionData();
+      } else{
+        ToastAndroid.show("Please choose a list", ToastAndroid.SHORT)
       }
     }
 
-    return (
-      <ScrollView>
-        <View style={styles.container}>
+    return (    
+      <View style={{backgroundColor: "#fff", flex: 1}}>                 
+        <ScrollView contentContainerStyle={styles.container}>
           <View style={styles.choosers}>
             <Text style={styles.title}>Trick Chooser</Text>            
             <View style={styles.dropDownContainer}>
 
               <View style={styles.dropDown}>
                 <Dropdown 
-                  label="Type of"
+                  label="Type"
                   useNativeDriver={true}
                   onChangeText={(value) => {
                     this.setState({ddlType: value,ddlList: ''});
+                    this.storeOptionData();
                   }}
                   value={this.state.ddlType}
                   data={[{label:"Rails", value: "rails"}, {label:"Jumps",value: "jumps"}, {label:"Pipe",value: "pipe"}]}/>
@@ -94,23 +136,20 @@ class Home extends React.Component{
               <View style={styles.dropDown}>
                 <Dropdown 
                   style={styles.dropDown}
-                  label="From TrickList"
+                  label="TrickList"
                   useNativeDriver={true}
                   onChangeText={(value) => {
-                    if(this.state.ddlList === ''){
-                      this.setState({chooseButtonDisabled: true});
-                    }
-                    this.setState({chooseButtonDisabled: false});
-                    this.setState({ddlList: value})
+                    this.setState({ddlList: value});
+                    this.storeOptionData();
                   }}
                   value={this.state.ddlList}
                   data={data(this.state.ddlType)} />  
                 </View>
+
             </View>
 
             <Button                 
               mode="contained" 
-              disabled={this.state.chooseButtonDisabled}
               color={theme.colors.primary} 
               onPress={() => getTrick()}
             >
@@ -123,24 +162,24 @@ class Home extends React.Component{
 
           </View>
 
-          <View>
-            <Text style={styles.title}>Todays Goals</Text>
-            <View style={styles.goalsContainer}>
-              {/* <Button onPress={() => console.log("\nday goals are: " + JSON.stringify(this.state.goals.filter(goal => goal.period === 'day')) )}>HU</Button> */}
-              {this.state.goals.filter(goal => goal.period === 'day').map(goal => (
-                <View key={goal.id}>
-                  <TouchableOpacity onPress={() => this.props.navigation.navigate(goal.type)}>
-                    <View style={styles.goalListItem}>
-                      <Text style={styles.goalText}>{goal.name}</Text>                  
-                    </View>
-                  </TouchableOpacity>
-                  <Divider style={{marginLeft: 16}}/>
-                </View>
-              ))}
+          <View style={{flex: 1, justifyContent: "flex-end"}}>
+            <View style={styles.goalsOverViewContainer}>
+              <Text style={styles.title}>Todays Goals</Text>
+              <View style={styles.goalsContainer}>
+                {this.state.goals.filter(goal => goal.period === 'day').map(goal => (
+                  <View key={goal.id}>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate("GoalsStack", {screen: "Goals", params: {screen: goal.type}})}>
+                      <View style={styles.goalListItem}>
+                        <Text style={styles.goalText}>{Utils.toCaps(goal.name)}</Text>                  
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+                ))}
+              </View>
             </View>
           </View>
+        </ScrollView>
         </View>
-      </ScrollView>
     );
   } 
 }
@@ -153,8 +192,8 @@ export default function(props) {
 
 const styles = StyleSheet.create({  
   container: {
-    flex: 1,
     justifyContent: 'flex-start',
+    backgroundColor: "#fff",
   },
 
   //choosers
@@ -175,7 +214,7 @@ const styles = StyleSheet.create({
   trickContainer: {
     flex: 1,
     alignItems: 'center',
-    marginVertical: 24
+    marginVertical: 24,
   },
   trickText: {
     fontSize: 60,
@@ -190,14 +229,20 @@ const styles = StyleSheet.create({
   },
 
   //goals
-  goalsContainer: {
-    backgroundColor: 'white',
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: 'lightgray'
+  goalsOverViewContainer: {
+    elevation: 10,
+    borderRadius: 6,
+    marginHorizontal: 16,
+    marginBottom: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    backgroundColor: "#fff",
+    shadowColor: '#333',
+    shadowOpacity: 0.3,
+    shadowOffset: {width: 1, height: 1},
   },
   goalListItem: {
-    height: Platform.OS === "ios" ? 44: 48,
-    paddingLeft: 16,
+    height: Platform.OS === "ios" ? 34: 38,
     justifyContent: 'center',
   },
   goalText: {

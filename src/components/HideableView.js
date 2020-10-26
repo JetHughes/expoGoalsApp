@@ -1,6 +1,6 @@
 import React from 'react';
 
-class HideableView extends React.Component {
+export default class HideableView extends React.Component {
   render(){
       if(this.props.visible){
         return this.props.children;
@@ -10,5 +10,3 @@ class HideableView extends React.Component {
       );
   }
 }
-
-export default HideableView;

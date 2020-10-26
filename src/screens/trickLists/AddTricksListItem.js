@@ -35,9 +35,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
         paddingVertical: 12,
     },
-    checkBox: {
-        alignSelf: 'center',
-    },
     text: {
         flex: 1,
         fontSize: 16,

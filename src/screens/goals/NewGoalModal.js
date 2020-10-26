@@ -38,7 +38,8 @@ const NewGoalModal = ({navigation, route}) => {
                             autoCapitalize='sentences' 
                             autoFocus={true} 
                             value={trick} 
-                            onChangeText={(value) => setTrick(value)}/>
+                            onChangeText={(value) => setTrick(value)}
+                            onSubmitEditing={() => add(trick)}/>
                         <View style={globalStyles.actionsContainer}>
                             <TouchableOpacity                 
                                 hitSlop={{top: 20, left: 20, bottom: 20, right: 0}}           

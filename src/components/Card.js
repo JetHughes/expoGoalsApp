@@ -6,7 +6,7 @@ import {StyleSheet,View} from 'react-native'
 class Card extends React.Component {
     render(){
             return(
-                <View style={...this.props.style, cardStyles.card }>
+                <View style={cardStyles.card}>
                     {this.props.children}
                 </View>
             );    
@@ -25,3 +25,5 @@ const cardStyles = StyleSheet.create({
         paddingVertical: 12
     }
 }) 
+
+

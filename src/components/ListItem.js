@@ -37,7 +37,9 @@ const ListItem = (props) => {
                     <TouchableOpacity onPress={onExpandPressed}>
                         <View style={{flexDirection: 'row'}}>
                             <Text style={styles.expandLabel}>{expandLabel}</Text>
+
                             <Icon name="chevron-right" size={24} color="lightgrey"/>
+                            
                         </View>
                     </TouchableOpacity>
                 </HideableView>
